@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Page</title>
+	<!-- Bootstrap 4-->
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}" />
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Roundr.com</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav ml-auto">
+	      <li class="nav-item active">
+	        <a class="nav-link" href="#">Home</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">Ask</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">Questions</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="#">Tags</a>
+	      </li>
+	      <li class="nav-item dropdown">
+	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exams</a>
+	        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	          <a class="dropdown-item" href="#">ATSWA</a>
+	          <a class="dropdown-item" href="#">ICAN</a>
+	          <div class="dropdown-divider"></div>
+	          <a class="dropdown-item" href="#">CIPM</a>
+	          <a class="dropdown-item" href="#">CITN</a>
+	        </div>
+	      </li>
+	    </ul>
+	    <form class="form-inline my-2 my-lg-0">
+	      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	    </form>
+	  </div>
+	</nav>
+	<!-- Search Section -->
+	<div class="container-fluid py-5">
+		<div class="row">
+			<div class="col-md-8 offset-2">
+				<form>
+				<div class="input-group">
+	  				<input type="text" name="q" class="form-control form control-lg" placeholder="Search" />
+	  				<div class="input-group-append">
+	    			<button class="btn btn-dark" type="submit" id="button-addon2">Search</button>
+	 	 			</div>
+				</div>
+			</form>	
+		</div>
+	</div>
+<!-- Question List -->
+	<div class="container-fluid">
+		{% for quest in quests %}
+		<div class="card mb-3">
+			<div class="card-body">
+				<h4 class="card-title"><a href="/detail/{{quest.id}}">{{quest.title}}</a></h4>
+				<p class="card-text">{{quest.detail}}</p>
+				<p>
+					<a href="#" class="mr-2">{{quest.user.username}}</a>
+					<a href="#" class="mr-2">5 Answers</a>
+					<a href="#" class="mr-2">1 Comment</a>
+				</p>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<!-- Pagination -->
+	<nav class="my-3">  
+		<ul class="pagination">
+			{% if quests.has_previous %}
+		    <li class="page-item"><a class="page-link" href="?page={{quests.previous_page_number}}">Previous</a></li>
+		    {% endif %}
+		    {% for i in quests.paginator.page_range %}
+		    {% if quests.number == i %}
+		    <li class="page-item acive"><a class="page-link" href="#">{{i}}</a></li>
+		    {% else %}
+		    <li class ="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+		    {% endif %}
+		    {% endfor %}
+		    {% if quests.has_next %}
+		    <li class="page-item"><a class="page-link" href="?page={{quests.next_page_number}}">Next</a></li>
+		    {% endif %}
+  		</ul>
+	</nav>
+</body>
+</html>
