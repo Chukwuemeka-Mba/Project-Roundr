@@ -6,6 +6,7 @@ class Question(models.Model):
 	user=models.ForeignKey(User,on_delete=models.CASCADE)
 	title=models.CharField(max_length=300)
 	details=models.TextField()
+	tags=models.TextField(default='')
 	add_time=models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
@@ -13,12 +14,12 @@ class Question(models.Model):
 
 #Anwer Model
 class Answer(models.Model):
-	question=models.ForeignKey(User,on_delete=models.CASCADE)
-	details=models.TextField()
-	add_time=models.DateTimeField(auto_now_add=True)
-
-	def __str__(self):
-		return self.title 
+    question=models.ForeignKey(Question,on_delete=models.CASCADE)
+    details=models.TextField()
+    add_time=models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+    	return self.title
 
 #Comment Model
 class Comment(models.Model):
